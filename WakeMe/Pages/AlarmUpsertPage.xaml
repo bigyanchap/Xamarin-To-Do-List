@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:WakeMe.ViewModel"
+    xmlns:input= "clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+    x:Class="WakeMe.Pages.AlarmUpsertPage">
+    <ContentPage.BindingContext>
+        <vm:AlarmVM/>
+    </ContentPage.BindingContext>
+    <StackLayout x:Name="NewAlarm">
+        <Frame BackgroundColor="#2196F3" Padding="20" CornerRadius="0">
+            <Label Text="Wake Me" HorizontalTextAlignment="Start" TextColor="White" FontSize="20"/>
+        </Frame>
+        <Entry x:Name="name"
+               Placeholder="Alarm Name"
+               Text="{Binding AlarmName}">
+        </Entry>
+        
+        <Button Text="Save"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Command="{Binding Path=BindingContext.AddAlarmCommand, Source={x:Reference NewAlarm}}"
+                CommandParameter="{Binding .}"/>
+    </StackLayout>
+</ContentPage>

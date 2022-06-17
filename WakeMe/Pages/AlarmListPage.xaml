@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:WakeMe.ViewModel"
+    xmlns:input= "clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+    x:Class="WakeMe.Pages.AlarmListPage">
+    <ContentPage.BindingContext>
+        <vm:AlarmVM/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <Grid Margin="10, 0,10,0" RowSpacing="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>   
+                </Grid.ColumnDefinitions>
+                
+                <StackLayout Grid.Column="2">
+                    <Button Text="New Alarm"
+                        TextColor="Black"
+                        Command="{Binding Path=BindingContext.NavigateToAlarmUpsertCommand, Source={x:Reference AlarmList}}"
+                                        CommandParameter="{Binding .}"/>
+                </StackLayout>
+            </Grid>
+            <Grid Grid.Row="1" RowSpacing="4">
+                <ListView x:Name="AlarmList" ItemsSource="{Binding Alarms}" VerticalOptions="FillAndExpand" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame CornerRadius="10" HasShadow="True">
+                                    <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Padding="20,2">
+                            
+                                        <StackLayout HorizontalOptions="StartAndExpand">
+                                            <StackLayout>
+                                                <Label Text="{Binding AlarmName}" FontSize="Large"></Label>
+
+                                            </StackLayout>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>   
+                                                </Grid.ColumnDefinitions>
+                                                <StackLayout Grid.Column="0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding Hour}" FontSize="Small" FontAttributes="Bold"/>
+                                                                <Span Text=":" FontSize="Small" FontAttributes="Bold"/>
+                                                                <Span Text="{Binding Minute}" FontSize="Small" FontAttributes="Bold"/>
+                                                                <Span Text=" " FontSize="Small" FontAttributes="Bold"/>
+                                                                <Span Text="{Binding AMPM}" FontSize="Small" FontAttributes="Bold"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="1">
+                                                    <Switch IsToggled="{Binding IsOnStatus}"/>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="2">
+                                                    <ImageButton
+                                                        Source="delete.png"
+                                                        BackgroundColor="Transparent"
+                                                        Scale="0.5"
+                                                        Command="{Binding Path=BindingContext.RemoveAlarmCommand, Source={x:Reference AlarmList}}"
+                                                        CommandParameter="{Binding .}"/>
+                                                </StackLayout>
+                                            </Grid>
+                                        </StackLayout>
+                                    </FlexLayout>
+                                </Frame>   
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local1="clr-namespace:WakeMe.ViewModel"
+    xmlns:input= "clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+    x:Class="WakeMe.Pages.ToDoListPage">
+
+    <ContentPage.BindingContext>
+        <local1:ToDoListVM/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="20" CornerRadius="0">
+            <Label Text="Wake Me" HorizontalTextAlignment="Start" TextColor="White" FontSize="20"/>
+        </Frame>
+        <Entry x:Name="InputField"
+            Placeholder="enter a todo"
+               Text="{Binding NewToDoInputValue}"
+               ReturnCommand="{Binding AddToDoCommand}"></Entry>
+            
+        <ListView x:Name="ToDoList" ItemsSource="{Binding ToDoItems}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Padding="20,2">
+
+                            <input:CheckBox IsChecked="{Binding Complete}"/>
+                            <Label Text="{Binding ToDoText}" FontSize="Large"></Label>
+                            <ImageButton
+                                Source="delete.png"
+                                Scale="0.5"
+                                Command="{Binding Path=BindingContext.RemoveToDoCommand, Source={x:Reference ToDoList}}"
+                                CommandParameter="{Binding .}"/>
+                        </FlexLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </StackLayout>
+</ContentPage>
